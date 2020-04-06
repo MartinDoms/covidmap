@@ -34,6 +34,7 @@ function Home({data, minMaxes, properties}) {
         * {
           box-sizing: border-box;
         }
+        
       `}</style>
     </div>
   )
