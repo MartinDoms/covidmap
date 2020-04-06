@@ -28,10 +28,14 @@ class MapContainer extends React.Component {
         this.setState({selectedProperty: newValue});
     }
 
-    valueText(val) {
+    dateText(val) {
         var date = new Date(this.dataKeys[this.state.key]);
         date.setDate(date.getDate() + val);
         return date.toLocaleDateString("en-NZ")
+    }
+
+    valueText(val) {
+        return `+${val}`;
     }
 
     render() {
@@ -46,12 +50,9 @@ class MapContainer extends React.Component {
                     max={minMax.max} 
                     property={this.state.selectedProperty}
                 />
-                <div className="date">
-                    {this.dataKeys[this.state.key]}
-                </div>
                 <div className="slider-container">
                     <Typography gutterBottom>
-                        Date
+                        Date {this.dateText(this.state.key)}
                     </Typography>
                     <Slider
                         defaultValue={0}
