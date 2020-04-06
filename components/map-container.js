@@ -70,7 +70,7 @@ class MapContainer extends React.Component {
             this.setState((state, props) => ({ 
                 key: (state.key + 1) % this.dataKeys.length 
             }));
-        } , 200000);
+        } , 100);
     }
 
     componentWillUnmount() {
