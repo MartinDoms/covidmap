@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { MapContainer } from '../components/map-container';
 import data from '../data/data.json';
 
-function Home({data, dates, minMaxes, property}) {
+function Home({data, minMaxes, properties}) {
 
   return (
     <div className="container">
@@ -13,7 +13,7 @@ function Home({data, dates, minMaxes, property}) {
       </Head>
   
       <main>
-        <MapContainer data={data} minMaxes={minMaxes} property={'ConfirmedCases'} />
+        <MapContainer data={data} minMaxes={minMaxes} properties={properties} />
       </main>
   
       <style jsx>{`
@@ -62,7 +62,7 @@ export async function getStaticProps() {
     }
   }
 
-  return  {props: { data, dates, minMaxes, properties } };
+  return  {props: { data, minMaxes, properties } };
 }
 
 export default Home

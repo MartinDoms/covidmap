@@ -2,8 +2,11 @@ import React from 'react';
 import { Map } from './map';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 class MapContainer extends React.Component {
 
@@ -11,13 +14,18 @@ class MapContainer extends React.Component {
         super(props);
         this.dataKeys = Object.keys(props.data);
         this.state = {
-            key: 0
+            key: 0,
+            selectedProperty: this.props.properties[0],
         }
     }
 
-    handleChange(_, newValue) {
+    handleDateChange(_, newValue) {
         clearInterval(this.interval);
         this.setState({key: newValue});
+    }
+
+    handlePropertyChange(_, newValue) {
+        this.setState({selectedProperty: newValue});
     }
 
     valueText(val) {
@@ -28,7 +36,7 @@ class MapContainer extends React.Component {
 
     render() {
         var data = this.props.data[this.dataKeys[this.state.key]];
-        var minMax = this.props.minMaxes[this.props.property];
+        var minMax = this.props.minMaxes[this.state.selectedProperty];
 
         return (
             <div className="map-container">
@@ -36,7 +44,7 @@ class MapContainer extends React.Component {
                     data={this.props.data[this.dataKeys[this.state.key]]} 
                     min={minMax.min} 
                     max={minMax.max} 
-                    property={this.props.property}
+                    property={this.state.selectedProperty}
                 />
                 <div className="date">
                     {this.dataKeys[this.state.key]}
@@ -56,9 +64,17 @@ class MapContainer extends React.Component {
                         marks
                         min={0}
                         max={this.dataKeys.length-1}
-                        onChange={this.handleChange.bind(this)}
+                        onChange={this.handleDateChange.bind(this)}
                         valueLabelDisplay="on"
                     />
+                </div>
+                <div className="metric-selector">
+                    <FormControl component="fieldset">
+                    <FormLabel component="legend">Metric</FormLabel>
+                    <RadioGroup aria-label="selectedProperty" name="selectedProperty" value={this.state.selectedProperty} onChange={this.handlePropertyChange.bind(this)}>
+                        {this.props.properties.map(p => <FormControlLabel value={p} control={<Radio />} label={p} />)}
+                    </RadioGroup>
+                    </FormControl>
                 </div>
             </div>
         );
