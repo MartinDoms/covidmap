@@ -79,7 +79,6 @@ class MapContainer extends React.Component {
 
     dateText(val) {
         var date = new Date(this.dataKeys[this.state.key]);
-        date.setDate(date.getDate() + val);
         return date.toLocaleDateString("en-GB")
     }
 

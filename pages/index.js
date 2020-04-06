@@ -63,6 +63,7 @@ export async function getStaticProps() {
     }
   }
 
+  console.log(dates);
   return  {props: { data, minMaxes, properties } };
 }
 
