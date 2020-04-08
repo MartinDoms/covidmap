@@ -29,12 +29,12 @@ class MapContainer extends React.Component {
 
     tick() {
         this.setState((state) => { 
-            var key = (state.selectedDay + 1) % this.dataKeys.length;
-            if (key == 0 && !state.loop) {
+            var newDay = (state.selectedDay + 1) % this.dataKeys.length;
+            if (newDay == 0 && !state.loop) {
                 clearInterval(this.interval);
                 return { paused: true };
             }
-            return {selectedDay: key};
+            return {selectedDay: newDay};
         });
     }
 
