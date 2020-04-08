@@ -1,5 +1,4 @@
-A Next.JS website with a map display and a data munger for preparing the data. The munger assumes that you have the [Johns Hopkins University data set]
-(https://github.com/CSSEGISandData/COVID-19) at `~/src/covid19-data`.
+A Next.JS website with a map display and a data munger for preparing the data. The munger assumes that you have the [Johns Hopkins University data set](https://github.com/CSSEGISandData/COVID-19) at `~/src/covid19-data`.
 
 ## Getting Started
 
