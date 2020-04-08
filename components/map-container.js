@@ -8,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import IconButton from '@material-ui/core/IconButton';
+import { metrics } from '../data/metrics';
 
 import { PlayArrow, Pause, Loop } from '@material-ui/icons';
 
@@ -19,7 +20,7 @@ class MapContainer extends React.Component {
         this.playbackSpeeds = [1000, 500, 200, 100, 50];
         this.state = {
             key: 0,
-            selectedProperty: this.props.properties[0],
+            selectedMetric: metrics[0],
             playbackSpeed: 2,
             paused: true,
             loop: true
@@ -42,8 +43,11 @@ class MapContainer extends React.Component {
         this.setState({key: newValue});
     }
 
-    handlePropertyChange(_, newValue) {
-        this.setState({selectedProperty: newValue});
+    handleMetricChange(_, newValue) {
+        var selectedMetric = metrics.find(m => m.name === newValue);
+        this.setState({
+            selectedMetric: selectedMetric
+        });
     }
 
     handlePlaybackSpeedChange(event, val) {
@@ -91,7 +95,7 @@ class MapContainer extends React.Component {
     }
 
     render() {
-        var minMax = this.props.minMaxes[this.state.selectedProperty];
+        var minMax = this.props.minMaxes[this.state.selectedMetric.name];
 
         return (
             <div className="map-container">
@@ -99,7 +103,7 @@ class MapContainer extends React.Component {
                     data={this.props.data[this.dataKeys[this.state.key]]} 
                     min={minMax.min} 
                     max={minMax.max} 
-                    property={this.state.selectedProperty}
+                    metric={this.state.selectedMetric}
                 />
                 <Typography gutterBottom>
                     Date {this.dateText(this.state.key)}
@@ -162,8 +166,8 @@ class MapContainer extends React.Component {
                     <div className="metric-selector">
                         <FormControl component="fieldset">
                         <FormLabel component="legend">Metric</FormLabel>
-                        <RadioGroup aria-label="selectedProperty" name="selectedProperty" value={this.state.selectedProperty} onChange={this.handlePropertyChange.bind(this)}>
-                            {this.props.properties.map(p => <FormControlLabel value={p} control={<Radio />} label={p} key={p} />)}
+                        <RadioGroup aria-label="selectedMetric" name="selectedMetric" value={this.state.selectedMetric.name} onChange={this.handleMetricChange.bind(this)}>
+                            {metrics.map(m => <FormControlLabel value={m.name} control={<Radio />} label={m.name} key={m.name} />)}
                         </RadioGroup>
                         </FormControl>
                     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { MapContainer } from '../components/map-container';
 import data from '../data/data.json';
+import { metrics } from '../data/metrics';
 
 function Home({data, minMaxes, properties}) {
 
@@ -13,7 +14,7 @@ function Home({data, minMaxes, properties}) {
       </Head>
   
       <main>
-        <MapContainer data={data} minMaxes={minMaxes} properties={properties} />
+        <MapContainer data={data} minMaxes={minMaxes} />
       </main>
   
       <style jsx>{`
@@ -45,25 +46,29 @@ export async function getStaticProps() {
   var dataAsArray = dates.map(function(key) {
     return data[key];
   });
-  var properties = ['Deaths', 'ConfirmedCases', 'Recovered'];
-  var minMaxes = properties.reduce((acc, p) => {
-    acc[p] = { min: 999999, max: 0};
+
+
+  var minMaxes = metrics.reduce((acc, p) => {
+    acc[p.name] = { min: 999999, max: 0};
     return acc;
   }, {});
   
   for (var i = 0; i < dataAsArray.length; i++) {
     var dateData = dataAsArray[i];
     for (var j = 0; j < dateData.length; j++) {
-      for (var k = 0; k < properties.length; k++) {
-        var prop = properties[k];
-        var value = dateData[j][prop];
-        if (value < minMaxes[prop].min) minMaxes[prop].min = value;
-        if (value > minMaxes[prop].max) minMaxes[prop].max = value;
+      var dataPoint = dateData[j];
+      for (var k = 0; k < metrics.length; k++) {
+        
+        var metric = metrics[k];
+        var value = metric.calc(dataPoint);
+
+        if (value < minMaxes[metric.name].min) minMaxes[metric.name].min = value;
+        if (value > minMaxes[metric.name].max) minMaxes[metric.name].max = value;
       }
     }
   }
 
-  return  {props: { data, minMaxes, properties } };
+  return  {props: { data, minMaxes } };
 }
 
 export default Home
