@@ -43,13 +43,10 @@ function Home({data, minMaxes, properties}) {
 
 export async function getStaticProps() {
   var dates = Object.keys(data);
-  var dataAsArray = dates.map(function(key) {
-    return data[key];
-  });
+  var dataAsArray = dates.map(key => data[key]);
 
-
-  var minMaxes = metrics.reduce((acc, p) => {
-    acc[p.name] = { min: 999999, max: 0};
+  var minMaxes = metrics.reduce((acc, metric) => {
+    acc[metric.name] = { min: 9999999, max: 0};
     return acc;
   }, {});
   

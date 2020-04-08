@@ -16,8 +16,10 @@ class MapContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        this.dataKeys = Object.keys(props.data);
+
+        this.dates = Object.keys(props.data);
         this.playbackSpeeds = [1000, 500, 200, 100, 50];
+
         this.state = {
             selectedDay: 0,
             selectedMetric: metrics[0],
@@ -29,7 +31,7 @@ class MapContainer extends React.Component {
 
     tick() {
         this.setState((state) => { 
-            var newDay = (state.selectedDay + 1) % this.dataKeys.length;
+            var newDay = (state.selectedDay + 1) % this.dates.length;
             if (newDay == 0 && !state.loop) {
                 clearInterval(this.interval);
                 return { paused: true };
@@ -64,7 +66,7 @@ class MapContainer extends React.Component {
     handlePlay() {
         this.setState({paused: false});
 
-        if (!this.state.loop && this.state.selectedDay == this.dataKeys.length-1) {
+        if (!this.state.loop && this.state.selectedDay == this.dates.length-1) {
             this.setState({selectedDay: 0}); // reset at the end of a loop when looping is disabled
         }
 
@@ -82,7 +84,7 @@ class MapContainer extends React.Component {
     }
 
     dateText(val) {
-        var date = new Date(this.dataKeys[this.state.selectedDay]);
+        var date = new Date(this.dates[this.state.selectedDay]);
         return date.toLocaleDateString("en-GB")
     }
 
@@ -95,19 +97,17 @@ class MapContainer extends React.Component {
     }
 
     render() {
+
         var minMax = this.props.minMaxes[this.state.selectedMetric.name];
 
         return (
             <div className="map-container">
                 <Map 
-                    data={this.props.data[this.dataKeys[this.state.selectedDay]]} 
+                    data={this.props.data[this.dates[this.state.selectedDay]]} 
                     min={minMax.min} 
                     max={minMax.max} 
                     metric={this.state.selectedMetric}
                 />
-                <Typography gutterBottom>
-                    Date {this.dateText(this.state.selectedDay)}
-                </Typography>
                 <div className="configuration">
 
                     <div className="playback-controls">
@@ -122,10 +122,13 @@ class MapContainer extends React.Component {
                                 step={1}
                                 marks
                                 min={0}
-                                max={this.dataKeys.length-1}
+                                max={this.dates.length-1}
                                 onChange={this.handleDateChange.bind(this)}
                                 valueLabelDisplay="on"
                             />
+                            <Typography>
+                                Date {this.dateText(this.state.selectedDay)}
+                            </Typography>
                         </div>
                         {this.state.paused && 
                             <div className="playback-button">
