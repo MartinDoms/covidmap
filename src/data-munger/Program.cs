@@ -94,11 +94,14 @@ namespace c19data_munge
             var file = Path.GetFileName(path);
             var datePart = file.Substring(0, file.IndexOf("."));
 
-            return DateTime.ParseExact(
+            var result = DateTime.ParseExact(
                 datePart,
-                "mm-dd-yyyy",
+                "MM-dd-yyyy",
                 CultureInfo.InvariantCulture
             );
+
+            Console.WriteLine($"{datePart} => {result.ToString("yyyy MM dd")}");
+            return result;
         }
 
         static Dictionary<string,string> countryMap = new Dictionary<string,string> {
