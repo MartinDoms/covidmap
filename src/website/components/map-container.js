@@ -19,7 +19,7 @@ class MapContainer extends React.Component {
         this.dataKeys = Object.keys(props.data);
         this.playbackSpeeds = [1000, 500, 200, 100, 50];
         this.state = {
-            key: 0,
+            selectedDay: 0,
             selectedMetric: metrics[0],
             playbackSpeed: 2,
             paused: true,
@@ -29,18 +29,18 @@ class MapContainer extends React.Component {
 
     tick() {
         this.setState((state) => { 
-            var key = (state.key + 1) % this.dataKeys.length;
+            var key = (state.selectedDay + 1) % this.dataKeys.length;
             if (key == 0 && !state.loop) {
                 clearInterval(this.interval);
                 return { paused: true };
             }
-            return {key};
+            return {selectedDay: key};
         });
     }
 
     handleDateChange(_, newValue) {
         this.handlePause();
-        this.setState({key: newValue});
+        this.setState({selectedDay: newValue});
     }
 
     handleMetricChange(_, newValue) {
@@ -64,8 +64,8 @@ class MapContainer extends React.Component {
     handlePlay() {
         this.setState({paused: false});
 
-        if (!this.state.loop && this.state.key == this.dataKeys.length-1) {
-            this.setState({key: 0}); // reset at the end of a loop when looping is disabled
+        if (!this.state.loop && this.state.selectedDay == this.dataKeys.length-1) {
+            this.setState({selectedDay: 0}); // reset at the end of a loop when looping is disabled
         }
 
         clearInterval(this.interval);
@@ -82,7 +82,7 @@ class MapContainer extends React.Component {
     }
 
     dateText(val) {
-        var date = new Date(this.dataKeys[this.state.key]);
+        var date = new Date(this.dataKeys[this.state.selectedDay]);
         return date.toLocaleDateString("en-GB")
     }
 
@@ -100,13 +100,13 @@ class MapContainer extends React.Component {
         return (
             <div className="map-container">
                 <Map 
-                    data={this.props.data[this.dataKeys[this.state.key]]} 
+                    data={this.props.data[this.dataKeys[this.state.selectedDay]]} 
                     min={minMax.min} 
                     max={minMax.max} 
                     metric={this.state.selectedMetric}
                 />
                 <Typography gutterBottom>
-                    Date {this.dateText(this.state.key)}
+                    Date {this.dateText(this.state.selectedDay)}
                 </Typography>
                 <div className="configuration">
 
@@ -116,7 +116,7 @@ class MapContainer extends React.Component {
                                 defaultValue={0}
                                 getAriaValueText={this.valueText.bind(this)}
                                 valueLabelFormat={this.valueText.bind(this)}
-                                value={this.state.key}
+                                value={this.state.selectedDay}
                                 aria-labelledby="discrete-slider"
                                 valueLabelDisplay="auto"
                                 step={1}
