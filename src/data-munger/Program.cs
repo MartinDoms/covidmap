@@ -22,7 +22,7 @@ namespace c19data_munge
                 "csse_covid_19_daily_reports"
             );
             var files = Directory.GetFiles(dataDir, "*.csv");
-            var result = new Dictionary<DateTime, List<DataPoint>>();
+            var result = new SortedDictionary<DateTime, List<DataPoint>>();
 
             foreach (var file in files) {
                 Console.WriteLine($"Processing {file}");
