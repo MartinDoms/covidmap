@@ -38,7 +38,11 @@ namespace c19data_munge
                         var state = csv.GetField("Province/State") ?? csv.GetField("Province_State");
                         var country = csv.GetField("Country/Region") ?? csv.GetField("Country_Region");
                         country = CountryMap(country);
-                        var updated = DateTime.Parse(csv.GetField("Last Update") ?? csv.GetField("Last_Update"));
+                        var updated = DateTime.ParseExact(
+                            csv.GetField("Last Update") ?? csv.GetField("Last_Update"),
+                            new[] {"M/d/yyyy H:mm", "M/d/y H:mm", "yyyy-MM-ddTHH:mm:ss", "yyyy-MM-dd HH:mm:ss"},
+                            CultureInfo.InvariantCulture
+                        );
                         var confirmed = 0;
                         int.TryParse(csv.GetField("Confirmed"), out confirmed);
                         var deaths = 0;
@@ -90,7 +94,11 @@ namespace c19data_munge
             var file = Path.GetFileName(path);
             var datePart = file.Substring(0, file.IndexOf("."));
 
-            return DateTime.Parse(datePart);
+            return DateTime.ParseExact(
+                datePart,
+                "mm-dd-yyyy",
+                CultureInfo.InvariantCulture
+            );
         }
 
         static Dictionary<string,string> countryMap = new Dictionary<string,string> {
