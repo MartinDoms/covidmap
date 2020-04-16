@@ -13,7 +13,7 @@ export function CountryTable({ data, metric }) {
             <Table>
                 <TableHead>
                     <TableCell>Country</TableCell>
-                    <TableCell width={'32%'}>{metric.name}</TableCell>
+                    <TableCell width={'32%'}>Value</TableCell>
                 </TableHead>
                 <TableBody>
                     {
