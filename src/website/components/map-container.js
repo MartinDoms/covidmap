@@ -1,5 +1,6 @@
 import React from 'react';
 import { Map } from './map';
+import { CountryTable } from './table';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import Radio from '@material-ui/core/Radio';
@@ -102,6 +103,10 @@ class MapContainer extends React.Component {
 
         return (
             <div className="map-container">
+                <CountryTable 
+                    data={this.props.data[this.dates[this.state.selectedDay]]} 
+                    metric={this.state.selectedMetric}
+                />
                 <Map 
                     data={this.props.data[this.dates[this.state.selectedDay]]} 
                     min={minMax.min} 

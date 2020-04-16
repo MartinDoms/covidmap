@@ -15,31 +15,29 @@ function Map({ data, min, max, metric }) {
     return (
         <div>
             <ComposableMap>
-                <ZoomableGroup zoom={1}>
-                    <Geographies geography={geoUrl}>
-                        {({ geographies }) =>
-                            geographies.map(geo => {
-                                var mapCountry = data.find(dataPoint => 
-                                    dataPoint.Country == geo.properties.NAME || 
-                                    dataPoint.Country == geo.properties.NAME_LONG || 
-                                    dataPoint.Country == geo.properties.ISO_A3 || 
-                                    dataPoint.Country == geo.properties.ISO_A2
-                                );
+                <Geographies geography={geoUrl}>
+                    {({ geographies }) =>
+                        geographies.map(geo => {
+                            var mapCountry = data.find(dataPoint => 
+                                dataPoint.Country == geo.properties.NAME || 
+                                dataPoint.Country == geo.properties.NAME_LONG || 
+                                dataPoint.Country == geo.properties.ISO_A3 || 
+                                dataPoint.Country == geo.properties.ISO_A2
+                            );
 
-                                var dataValue = mapCountry && metric.calc(mapCountry);
-                                
-                                return <Geography 
-                                    key={geo.rsmKey} 
-                                    geography={geo} 
-                                    fill={mapCountry ? colorScale(dataValue) : "#eee"}
-                                    stroke="#ddd"
-                                    strokeWidth="0.5"
+                            var dataValue = mapCountry && metric.calc(mapCountry);
+                            
+                            return <Geography 
+                                key={geo.rsmKey} 
+                                geography={geo} 
+                                fill={mapCountry ? colorScale(dataValue) : "#eee"}
+                                stroke="#ddd"
+                                strokeWidth="0.5"
 
-                                />
-                            })
-                        }
-                    </Geographies>
-                </ZoomableGroup>
+                            />
+                        })
+                    }
+                </Geographies>
             </ComposableMap>
         </div>
     )
