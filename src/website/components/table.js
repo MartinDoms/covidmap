@@ -12,15 +12,15 @@ export function CountryTable({ data, metric }) {
         <TableContainer>
             <Table>
                 <TableHead>
-                    <TableCell width={'30%'}>Country</TableCell>
-                    <TableCell>{metric.name}</TableCell>
+                    <TableCell>Country</TableCell>
+                    <TableCell width={'32%'}>{metric.name}</TableCell>
                 </TableHead>
                 <TableBody>
                     {
                         sorted.slice(0, 5).map((row) =>
                             <TableRow>
                                 <TableCell>{row.Country}</TableCell>
-                                <TableCell>{metric.calc(row)}</TableCell>
+                                <TableCell align='right'>{metric.calc(row)}</TableCell>
                             </TableRow>
                         )
                     }
