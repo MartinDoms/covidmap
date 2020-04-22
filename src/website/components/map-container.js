@@ -103,10 +103,7 @@ class MapContainer extends React.Component {
 
         return (
             <div className="map-container">
-                <CountryTable 
-                    data={this.props.data[this.dates[this.state.selectedDay]]} 
-                    metric={this.state.selectedMetric}
-                />
+                
                 <Map 
                     data={this.props.data[this.dates[this.state.selectedDay]]} 
                     min={minMax.min} 

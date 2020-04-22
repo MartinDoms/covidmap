@@ -1,5 +1,5 @@
 import React from 'react';
-import { scaleLinear } from "d3-scale";
+import { scaleLinear, scaleLog } from "d3-scale";
 
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 
@@ -8,8 +8,8 @@ function Map({ data, min, max, metric }) {
     const geoUrl =
             "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
     
-    var colorScale = scaleLinear()
-        .domain([min, max])
+    var colorScale = scaleLog()
+        .domain([1, max])
         .range(["#eee", "#AA0011"]);
 
     return (
@@ -30,7 +30,7 @@ function Map({ data, min, max, metric }) {
                             return <Geography 
                                 key={geo.rsmKey} 
                                 geography={geo} 
-                                fill={mapCountry ? colorScale(dataValue) : "#eee"}
+                                fill={mapCountry ? colorScale(dataValue || 1) : "#eee"}
                                 stroke="#ddd"
                                 strokeWidth="0.5"
 
